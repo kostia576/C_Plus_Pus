@@ -1,3 +1,7 @@
-//
-// Created by smoli on 07.09.2026.
-//
+#include "lib.h"
+
+#include "version.h"
+
+int version() {
+    return PROJECT_VERSION_PATCH;
+}
