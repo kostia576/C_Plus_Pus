@@ -46,7 +46,7 @@ std::vector<std::string> split_ip(const std::string& ip) {
    return split(ip, '.');
 }
 
-int main(int argc, char* argv[])
+int main()
 {
    #ifdef _WIN32
    SetConsoleOutputCP(CP_UTF8);
