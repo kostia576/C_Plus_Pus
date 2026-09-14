@@ -88,12 +88,13 @@ int main(int argc, char* argv[])
          }
       }
 
+      std::ifstream file(filename);
       if (!file.is_open()) {
-         std::cerr << "Ошибка: не удалось открыть файл\n";
+         std::cerr << "Ошибка: не удалось открыть файл " << filename << "\n";
          return 1;
       }
 
-      std::cout << "Файл открыт успешно!\n\n";
+      std::cout << "Файл открыт успешно: " << filename << "\n\n";
 
       // Читаем ВСЕ IP-адреса из файла
       std::vector<std::vector<std::string>> ip_pool;
