@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - main
-      - feature/github_actions
       - feature/homework_2
   pull_request:
     branches:
@@ -26,18 +25,20 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y cmake build-essential libgtest-dev
-          # Устанавливаем GoogleTest (если не установлен в системе)
+          sudo apt-get install -y cmake build-essential libgtest-dev libboost-test-dev
+          
+          # Компилируем GoogleTest из исходников
           cd /usr/src/gtest
           sudo cmake -DCMAKE_BUILD_TYPE=Release .
           sudo make
-          sudo cp lib/*.a /usr/lib || sudo cp *.a /usr/lib
+          sudo cp lib/*.a /usr/lib 2>/dev/null || sudo cp *.a /usr/lib 2>/dev/null || true
       
       - name: Configure CMake
         run: |
           cmake . \
             -DPATCH_VERSION=${{ github.run_number }} \
             -DWITH_GTEST=ON \
+            -DWITH_BOOST_TEST=ON \
             -DCMAKE_BUILD_TYPE=Release
       
       - name: Build
@@ -45,9 +46,7 @@ jobs:
       
       - name: Run tests
         run: |
-          ctest --output-on-failure --ctest-config Release
-          # Или напрямую запустить исполняемый файл тестов:
-          # ./ip_utils_tests
+          ctest --output-on-failure --verbose
       
       - name: Package
         run: cmake --build . --target package
