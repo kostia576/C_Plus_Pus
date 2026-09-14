@@ -47,7 +47,11 @@ jobs:
       - name: Run tests
         run: |
           ctest --output-on-failure --verbose
-      
+
+       - name: Run main program with test data
+        run: |
+          ./helloworld_cli homework_data/ip_filter.tsv
+
       - name: Package
         run: cmake --build . --target package
       

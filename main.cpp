@@ -5,8 +5,11 @@
 #include <sstream>
 #include <algorithm>
 #include <set>
+
+#ifdef _WIN32
 #define NOMINMAX
 #include <windows.h>
+#endif
 
 // Функция для разделения строки по разделителю
 std::vector<std::string> split(const std::string& str, char delimiter) {
@@ -45,8 +48,10 @@ std::vector<std::string> split_ip(const std::string& ip) {
 
 int main(int argc, char* argv[])
 {
+   #ifdef _WIN32
    SetConsoleOutputCP(CP_UTF8);
    SetConsoleCP(CP_UTF8);
+   #endif
 
    try
    {
