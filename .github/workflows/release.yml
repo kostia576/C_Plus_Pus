@@ -5,7 +5,7 @@ on:
     branches:
       - main
       - feature/github_actions
-      - featurre/homework_2
+      - feature/homework_2
   pull_request:
     branches:
       - main
