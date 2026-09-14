@@ -84,3 +84,22 @@ if(WITH_BOOST_TEST)
     enable_testing()
     add_test(test_version test_version)
 endif()
+
+# Unit-тесты
+# ==========================================================
+
+# Находим установленный GoogleTest
+find_package(GTest CONFIG REQUIRED)
+
+add_executable(ip_utils_tests 
+    tests/ip_utils_tests.cpp 
+    ip_utils.cpp
+)
+
+
+# Подключаем GoogleTest к тестам
+target_link_libraries(ip_utils_tests PRIVATE GTest::gtest GTest::gtest_main)
+
+# Регистрируем тесты в CTest (опционально, для интеграции с CI)
+include(GoogleTest)
+gtest_discover_tests(ip_utils_tests)
