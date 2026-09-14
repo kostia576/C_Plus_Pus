@@ -46,7 +46,7 @@ std::vector<std::string> split_ip(const std::string& ip) {
    return split(ip, '.');
 }
 
-int main()
+int main(int argc, char* argv[])
 {
    #ifdef _WIN32
    SetConsoleOutputCP(CP_UTF8);
@@ -55,7 +55,38 @@ int main()
 
    try
    {
-      std::ifstream file("D:/C_Plus_Pus/homework_data/ip_filter.tsv");
+      std::string filename;
+
+      if (argc > 1) {
+         // Если путь передан как аргумент — используем его
+         filename = argv[1];
+      }
+      else {
+         // Иначе пробуем несколько вариантов
+         std::vector<std::string> possible_paths = {
+             "homework_data/ip_filter.tsv",           // Для CI и запуска из корня
+             "../homework_data/ip_filter.tsv",        // Для запуска из build-папки
+             "D:/C_Plus_Pus/homework_data/ip_filter.tsv"  // Для локальной разработки
+         };
+
+         for (const auto& path : possible_paths) {
+            std::ifstream test(path);
+            if (test.is_open()) {
+               filename = path;
+               test.close();
+               break;
+            }
+         }
+
+         if (filename.empty()) {
+            std::cerr << "Ошибка: не удалось найти файл ip_filter.tsv\n";
+            std::cerr << "Проверенные пути:\n";
+            for (const auto& path : possible_paths) {
+               std::cerr << "  - " << path << "\n";
+            }
+            return 1;
+         }
+      }
 
       if (!file.is_open()) {
          std::cerr << "Ошибка: не удалось открыть файл\n";
